@@ -51,6 +51,7 @@
   "homepage": "https://github.com/KorieDrakeChaney/ThreeComponents#readme",
   "dependencies": {
     "@babel/runtime": "^7.21.0",
+    "storybook-addon-github-button": "^0.1.0",
     "three-stdlib": "^2.21.8"
   },
   "devDependencies": {
