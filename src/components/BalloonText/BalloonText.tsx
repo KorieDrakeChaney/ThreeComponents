@@ -13,7 +13,7 @@ type BalloonTextProps = ThreeElements["mesh"] & {
   position?: [number, number, number];
   scale?: number;
   line?: number;
-  bounce?: boolean;
+  bounce?: boolean; 
 };
 
 const BalloonText = ({
