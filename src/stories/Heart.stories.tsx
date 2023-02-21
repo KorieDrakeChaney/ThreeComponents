@@ -18,6 +18,9 @@ export default {
     rotate: {
       control: { type: "boolean" },
     },
+    stats:{
+      control: { type: "boolean"}
+    },
     ...NODEFAULTCONTROLS["MESH"]
   },
 };
@@ -26,12 +29,13 @@ type DefaultHeartProps = {
   color: string;
   scale: number;
   rotate: boolean;
+  stats:boolean;
 };
 
-const DefaultHeart = ({ color, scale, rotate }: DefaultHeartProps) => {
+const DefaultHeart = ({ color, scale, rotate, stats }: DefaultHeartProps) => {
   return (
     <>
-      <Scene>
+      <Scene stats={stats}>
         <Heart color={color} scale={scale} rotate={rotate} />
       </Scene>
     </>
@@ -44,6 +48,7 @@ const Template: ComponentStory<typeof DefaultHeart> = (props) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  stats: false,
   scale: 1,
   color: "#e12222",
   rotate: false,

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Canvas, Props } from "@react-three/fiber";
-import { OrbitControls, Preload } from "@react-three/drei";
+import { OrbitControls, Preload, Stats } from "@react-three/drei";
 import { PropsWithChildren } from "react";
 import { Vector3 } from "three";
 
@@ -10,6 +10,7 @@ type SceneProps = PropsWithChildren<
     cameraPosition?: Vector3;
     lights?: boolean;
     controls?: boolean;
+    stats?:boolean;
   }
 >;
 
@@ -18,6 +19,7 @@ const Scene = ({
   cameraFov = 75,
   cameraPosition = new Vector3(0, 0, 10),
   controls = true,
+  stats = false,
   lights = true,
   ...props
 }: SceneProps) => {
@@ -36,6 +38,7 @@ const Scene = ({
         </>
       )}
       {controls && <OrbitControls />}
+      {stats && <Stats/>}
       <Preload all />
     </Canvas>
   );

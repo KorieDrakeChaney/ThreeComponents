@@ -1,13 +1,9 @@
 import * as React from "react";
 import { ThreeElements } from "@react-three/fiber";
-import { useEffect } from "react";
 import {
   Color,
-  MeshBasicMaterial,
   MeshPhongMaterial,
-  MeshStandardMaterial,
 } from "three";
-import { Alphabet } from "./utils";
 
 type LetterProps = ThreeElements["mesh"] & {
   color?: string;

@@ -21,6 +21,9 @@ export default {
     bounce: {
       control: { type: "boolean" },
     },
+    stats:{
+      control: { type: "boolean"}
+    },
     ...NODEFAULTCONTROLS["MESH"]
   },
 };
@@ -30,6 +33,7 @@ type DefaultBalloonTextProps = {
   scale: number;
   text: string;
   bounce: boolean;
+  stats:boolean;
 };
 
 const DefaultBalloonText = ({
@@ -37,10 +41,11 @@ const DefaultBalloonText = ({
   scale,
   text,
   bounce,
+  stats
 }: DefaultBalloonTextProps) => {
   return (
     <>
-      <Scene>
+      <Scene stats={stats}>
         <BalloonText
           scale={scale}
           text={text}
@@ -59,6 +64,7 @@ const Template: ComponentStory<typeof DefaultBalloonText> = (props) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  stats: false,
   color: "#e12222",
   scale: 1,
   text: "Hello World",
