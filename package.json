@@ -1,0 +1,69 @@
+{
+  "name": "three-components",
+  "version": "0.1.0",
+  "description": "A collection of three components for personal library",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "rollup": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KorieDrakeChaney/ThreeComponents.git"
+  },
+  "author": "KorieDrakeChaney",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KorieDrakeChaney/ThreeComponents/issues"
+  },
+  "homepage": "https://github.com/KorieDrakeChaney/ThreeComponents#readme",
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/builder-webpack4": "^6.5.16",
+    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/manager-webpack4": "^6.5.16",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
+    "@types/node": "^18.14.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/three": "^0.149.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.3.0",
+    "chromatic": "^6.17.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-storybook": "^0.6.11",
+    "file-loader": "^6.2.0",
+    "glslify": "^7.1.1",
+    "glslify-loader": "^2.0.0",
+    "prettier": "^2.8.4",
+    "raw-loader": "^4.0.2",
+    "react": "^18.2.0",
+    "rollup-plugin-dts": "^5.2.0",
+    "typescript": "^4.9.5",
+    "url-loader": "^4.1.1"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.56.25",
+    "@react-three/fiber": "^8.11.2",
+    "eslint": "^8.34.0",
+    "glsl-random": "^0.0.5",
+    "react-dom": "^18.2.0",
+    "three": "^0.149.0",
+    "three-stdlib": "^2.21.8",
+    "three-subdivide": "^1.1.2"
+  }
+}
