@@ -3,7 +3,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import packageJson from "./package.json" assert { type: "json" };
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 export default [
   {
     input: "src/index.ts",
