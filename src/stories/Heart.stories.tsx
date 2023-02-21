@@ -1,9 +1,8 @@
 import * as React from "react";
-import { Euler, Vector3 } from "three";
 import { ComponentStory } from "@storybook/react";
 
-import { Heart, Scene } from "..";
-
+import { Heart, Scene } from "../components";
+import { NODEFAULTCONTROLS } from "./utils";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: "Shapes/Heart",
@@ -19,6 +18,7 @@ export default {
     rotate: {
       control: { type: "boolean" },
     },
+    ...NODEFAULTCONTROLS["MESH"]
   },
 };
 

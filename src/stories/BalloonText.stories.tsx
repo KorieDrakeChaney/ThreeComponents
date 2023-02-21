@@ -1,8 +1,8 @@
 import * as React from "react";
 import { ComponentStory } from "@storybook/react";
 
-import { BalloonText, Scene } from "..";
-
+import { BalloonText, Scene } from "../components";
+import { NODEFAULTCONTROLS } from "./utils";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: "Componets/BalloonText",
@@ -21,6 +21,7 @@ export default {
     bounce: {
       control: { type: "boolean" },
     },
+    ...NODEFAULTCONTROLS["MESH"]
   },
 };
 
