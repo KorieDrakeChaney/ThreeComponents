@@ -3,7 +3,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import packageJson from "./package.json" assert { type: "json" };
-
+import { terser } from "rollup-plugin-terser";
 export default [
   {
     input: "src/index.ts",
@@ -23,10 +23,12 @@ export default [
       resolve(),
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
+      terser(),
     ],
   },
   {
     input: "dist/esm/types/index.d.ts",
+    external: ['react-dom'],
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     plugins: [dts()],
   },
