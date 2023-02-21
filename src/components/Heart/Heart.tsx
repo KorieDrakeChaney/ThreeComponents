@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useFBX } from "@react-three/drei";
 import { ThreeElements, useFrame } from "@react-three/fiber";
 import { MutableRefObject, useEffect, useMemo, useRef } from "react";

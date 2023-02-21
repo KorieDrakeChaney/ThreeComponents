@@ -1,3 +1,4 @@
+import * as React from "react";
 import { ThreeElements } from "@react-three/fiber";
 import { useEffect } from "react";
 import {

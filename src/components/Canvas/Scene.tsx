@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Canvas, Props } from "@react-three/fiber";
 import { OrbitControls, Preload } from "@react-three/drei";
 import { PropsWithChildren } from "react";
