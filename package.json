@@ -10,7 +10,8 @@
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "rollup": "rollup -c"
+    "rollup": "rollup -c",
+    "deploy": "gh-pages -d storybook-static"
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-storybook": "^0.6.11",
     "file-loader": "^6.2.0",
+    "gh-pages": "^5.0.0",
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",
     "prettier": "^2.8.4",
