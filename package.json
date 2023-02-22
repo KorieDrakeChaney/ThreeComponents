@@ -5,7 +5,11 @@
   "files": [
     "dist"
   ],
-  "keywords": ["threejs", "typescript", "react"],
+  "keywords": [
+    "threejs",
+    "typescript",
+    "react"
+  ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,6 +24,7 @@
     }
   },
   "scripts": {
+    "clean": "rimraf ./dist",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "rollup": "rollup -c",
@@ -27,7 +32,9 @@
     "eslint": "eslint --fix .",
     "eslint:ci": "eslint .",
     "prettier": "prettier --check .",
-    "prettier-fix": "prettier --write ."
+    "prettier-fix": "prettier --write .",
+    "release" : "yarn rollup",
+    "prebuild" :"yarn clean"
   },
   "repository": {
     "type": "git",
@@ -99,6 +106,7 @@
     "raw-loader": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rimraf": "^4.1.2",
     "rollup-plugin-dts": "^5.2.0",
     "rollup-plugin-glslify": "^1.3.1",
     "rollup-plugin-multi-input": "^1.3.3",
