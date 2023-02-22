@@ -69,7 +69,7 @@ const BalloonText = ({
     let centerArray: number[] = [];
     let offsetArray : {letter : Alphabet, line : number, offset: [number, number, number]}[] = [];
     let spaceBoundingBox = balloonTextFBX.nodes["A"].geometry.boundingBox;
-    let space = (spaceBoundingBox.max.z - spaceBoundingBox.min.z) * scale
+    let space = (spaceBoundingBox.max.z - spaceBoundingBox.min.z)
     let lines = text.split("\n");
     let prevValue = 0;
 
@@ -83,7 +83,7 @@ const BalloonText = ({
             
             offsetArray.push({letter : word[i].toUpperCase() as Alphabet, line : lineIndex, offset : [prevValue, -space * lineIndex, 0]});
             prevValue +=
-            (boundingBox.max.z - boundingBox.min.z) * scale
+            (boundingBox.max.z - boundingBox.min.z)
           }
         }
         prevValue += space;
