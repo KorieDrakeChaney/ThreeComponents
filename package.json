@@ -1,6 +1,6 @@
 {
   "name": "three-components",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A collection of three components for personal library",
   "files": [
     "dist"
@@ -33,8 +33,8 @@
     "eslint:ci": "eslint .",
     "prettier": "prettier --check .",
     "prettier-fix": "prettier --write .",
-    "release" : "yarn rollup",
-    "prebuild" :"yarn clean"
+    "release": "yarn rollup",
+    "prebuild": "yarn clean"
   },
   "repository": {
     "type": "git",
