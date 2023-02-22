@@ -1,16 +1,20 @@
 import * as React from "react";
 import { useGLTF } from "@react-three/drei";
 import { ThreeElements, useFrame } from "@react-three/fiber";
-import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
-import { BufferGeometry, Group, Vector3 } from "three";
-import Letter from "./Letter";
+import { MutableRefObject,  useEffect, useRef, useMemo } from "react";
+import { BufferGeometry, Group, InstancedMesh,  Matrix4,  MeshStandardMaterial, Object3D, Vector3 } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { Alphabet, letters, LetterOffset } from "./utils";
+import { Alphabet, letters } from "./utils";
 
-type BalloonTextProps = ThreeElements["mesh"] & {
+import vertexShader from "../../shaders/balloonText/vertex.glsl"
+import fragmentShader from "../../shaders/balloonText/fragment.glsl"
+
+
+type BalloonTextProps = {
   text?: string;
   color?: string;
   position?: [number, number, number];
+  rotation?:[number, number, number];
   scale?: number;
   line?: number;
   bounce?: boolean; 
@@ -19,10 +23,10 @@ type BalloonTextProps = ThreeElements["mesh"] & {
 const BalloonText = ({
   text = "",
   position = [0, 0, 0],
-  color,
+  color = "0xffffff",
   scale = 1,
-  rotation,
   bounce = false,
+  rotation = [Math.PI / 2, Math.PI, Math.PI],
   ...props
 }: BalloonTextProps) => {
   const balloonTextFBX = useGLTF("./assets/models/BalloonText.glb") as GLTF & {
@@ -31,89 +35,100 @@ const BalloonText = ({
 
   const balloonTextRef = useRef() as MutableRefObject<Group>;
 
-  const [letterOffset, setLetterOffset] = useState<LetterOffset[]>([]);
-  const [center, setCenter] = useState<number[]>([]);
-  //   const [balloonGeometry, setBalloonGeometry] = useState<BufferGeometry>();
-
-  const modelGeometry = useMemo(() => {
-    const geometries: Record<Alphabet, BufferGeometry | undefined> = {
-      A: undefined,
-      B: undefined,
-      C: undefined,
-      D: undefined,
-      E: undefined,
-      F: undefined,
-      G: undefined,
-      H: undefined,
-      I: undefined,
-      J: undefined,
-      K: undefined,
-      L: undefined,
-      M: undefined,
-      N: undefined,
-      O: undefined,
-      P: undefined,
-      Q: undefined,
-      R: undefined,
-      S: undefined,
-      T: undefined,
-      U: undefined,
-      V: undefined,
-      W: undefined,
-      X: undefined,
-      Y: undefined,
-      Z: undefined,
+  const model = useMemo(() => {
+    const meshes : InstancedMesh[] = [];
+    const matrixArray : Record<Alphabet, Matrix4[]> = {
+      A: [],
+      B: [],
+      C: [],
+      D: [],
+      E: [],
+      F: [],
+      G: [],
+      H: [],
+      I: [],
+      J: [],
+      K: [],
+      L: [],
+      M: [],
+      N: [],
+      O: [],
+      P: [],
+      Q: [],
+      R: [],
+      S: [],
+      T: [],
+      U: [],
+      V: [],
+      W: [],
+      X: [],
+      Y: [],
+      Z: [],
     };
-    letters.forEach((value) => {
-      const geometry = balloonTextFBX.nodes[value].geometry;
-      geometry.center();
-      geometries[value] = geometry;
-    });
-    return geometries;
-  }, [balloonTextFBX]);
-
-  useEffect(() => {
     let letterRegex = /^[a-zA-Z]+$/;
-    let letterOffset: LetterOffset[] = [];
-    let prevValue: number = 0;
-    let spaceBoundingBox = modelGeometry["A"]!.boundingBox;
-    let space =
-      Math.abs(spaceBoundingBox!.min.z * (scale as number)) +
-      Math.abs(spaceBoundingBox!.max.z * (scale as number));
-    let newCenter: number[] = [];
+    let centerArray: number[] = [];
+    let offsetArray : {letter : Alphabet, line : number, offset: [number, number, number]}[] = [];
+    let spaceBoundingBox = balloonTextFBX.nodes["A"].geometry.boundingBox;
+    let space = (spaceBoundingBox.max.z - spaceBoundingBox.min.z) * scale
     let lines = text.split("\n");
+    let prevValue = 0;
+
     lines.forEach((line, lineIndex) => {
       prevValue = 0;
       let words = line.split(" ");
       for (const word of words) {
         for (let i = 0; i < word.length; i++) {
           if (word[i].match(letterRegex)) {
-            let boundingBox =
-              modelGeometry[word[i].toUpperCase() as Alphabet]?.boundingBox;
-            let offset: [number, number, number] = [
-              prevValue,
-              -space * lineIndex,
-              0,
-            ];
-            letterOffset.push({
-              offset: offset,
-              line: lineIndex,
-              letter: word[i].toUpperCase() as Alphabet,
-            });
+            let boundingBox = balloonTextFBX.nodes[word[i].toUpperCase()].geometry.boundingBox;
+            
+            offsetArray.push({letter : word[i].toUpperCase() as Alphabet, line : lineIndex, offset : [prevValue, -space * lineIndex, 0]});
             prevValue +=
-              Math.abs(boundingBox!.min.z * (scale as number)) +
-              Math.abs(boundingBox!.max.z * (scale as number));
-          } else {
+            (boundingBox.max.z - boundingBox.min.z) * scale
           }
         }
         prevValue += space;
       }
-      newCenter.push(prevValue / 2);
+      centerArray.push(prevValue / 2);
     });
 
-    setCenter(newCenter);
-    setLetterOffset(letterOffset);
-  }, [modelGeometry, text, scale]);
+    for(let i = 0; i < offsetArray.length; i++){
+      const object = new Object3D();
+      object.position.copy(
+        new Vector3()
+        .fromArray(offsetArray[i].offset)
+        .sub(new Vector3(centerArray[offsetArray[i].line], 0, 0))
+        .add(new Vector3().fromArray(position)))
+      object.rotation.fromArray(rotation)
+      object.updateMatrixWorld();
+      matrixArray[offsetArray[i].letter].push(object.matrix);
+    }
+
+    letters.forEach((value) => {
+      let geometry : BufferGeometry = balloonTextFBX.nodes[value].geometry;
+      geometry.center();
+      let instancedMesh = new InstancedMesh(geometry, new MeshStandardMaterial({color,}), matrixArray[value].length);
+      for(let j = 0; j < matrixArray[value].length; j++){
+        instancedMesh.setMatrixAt(j, matrixArray[value][j]);
+      }
+      instancedMesh.scale.multiplyScalar(scale);
+      meshes.push(instancedMesh);
+    })
+    return meshes;
+  }, [balloonTextFBX, text]);
+
+  useEffect(() => {
+    model.forEach((value) => {
+      (value.material as 
+        MeshStandardMaterial).color.set(color)
+    })
+  }, [color])
+
+  useEffect(() => {
+    model.forEach((value) => {
+      value.scale.set(1, 1, 1).multiplyScalar(scale);
+      value.updateMatrixWorld();
+    })
+  }, [scale])
 
   useFrame(({ clock }) => {
     if (bounce)
@@ -126,15 +141,10 @@ const BalloonText = ({
   return (
     <group ref={balloonTextRef}>
       {text &&
-        Array.from({ length: letterOffset.length }, (_, i) => (
-          <Letter
-            scale={scale}
-            position={new Vector3()
-              .fromArray(letterOffset[i].offset)
-              .sub(new Vector3(center[letterOffset[i].line], 0, 0))
-              .add(new Vector3().fromArray(position))}
-            geometry={modelGeometry[letterOffset[i].letter]}
-            color={color}
+        Array.from({ length: model.length }, (_, i) => (
+          <primitive
+            {...props}
+            object={model[i]} 
             key={i}
           />
         ))}

@@ -10,7 +10,6 @@ type SceneProps = PropsWithChildren<
     cameraPosition?: Vector3;
     lights?: boolean;
     controls?: boolean;
-    stats?:boolean;
   }
 >;
 
@@ -19,7 +18,6 @@ const Scene = ({
   cameraFov = 75,
   cameraPosition = new Vector3(0, 0, 10),
   controls = true,
-  stats = false,
   lights = true,
   ...props
 }: SceneProps) => {
@@ -38,7 +36,6 @@ const Scene = ({
         </>
       )}
       {controls && <OrbitControls />}
-      {stats && <Stats/>}
       <Preload all />
     </Canvas>
   );

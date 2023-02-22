@@ -2,7 +2,8 @@ import * as React from "react";
 import { ComponentStory } from "@storybook/react";
 
 import { Heart, Scene } from "../components";
-import { NODEFAULTCONTROLS } from "./utils";
+import { NODEFAULTCONTROLS, STATSOPTION, statTypes, statValues } from "./utils";
+import { Stats } from "@react-three/drei";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: "Shapes/Heart",
@@ -18,9 +19,7 @@ export default {
     rotate: {
       control: { type: "boolean" },
     },
-    stats:{
-      control: { type: "boolean"}
-    },
+    ...STATSOPTION,
     ...NODEFAULTCONTROLS["MESH"]
   },
 };
@@ -29,13 +28,14 @@ type DefaultHeartProps = {
   color: string;
   scale: number;
   rotate: boolean;
-  stats:boolean;
+  stats: statTypes;
 };
 
 const DefaultHeart = ({ color, scale, rotate, stats }: DefaultHeartProps) => {
   return (
     <>
-      <Scene stats={stats}>
+      <Scene >
+        <Stats showPanel={statValues[stats]}/>
         <Heart color={color} scale={scale} rotate={rotate} />
       </Scene>
     </>
@@ -48,8 +48,8 @@ const Template: ComponentStory<typeof DefaultHeart> = (props) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  stats: false,
+  stats: "NONE",
   scale: 1,
   color: "#e12222",
-  rotate: false,
+  rotate: true,
 };
