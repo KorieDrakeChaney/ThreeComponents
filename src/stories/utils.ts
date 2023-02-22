@@ -477,3 +477,19 @@ export const NODEFAULTCONTROLS = {
     },
   },
 }
+
+export const STATSOPTION = {
+  stats: {
+    options: ['NONE', 'FPS', 'MS', 'MB'],
+    control: { type: 'select' },
+  },
+}
+
+export type statTypes = 'NONE' | 'FPS' | 'MS' | 'MB'
+
+export const statValues: Record<statTypes, number> = {
+  NONE: 999,
+  FPS: 0,
+  MS: 1,
+  MB: 2,
+}

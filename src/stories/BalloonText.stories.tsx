@@ -2,7 +2,8 @@ import * as React from "react";
 import { ComponentStory } from "@storybook/react";
 
 import { BalloonText, Scene } from "../components";
-import { NODEFAULTCONTROLS } from "./utils";
+import { NODEFAULTCONTROLS, STATSOPTION, statTypes, statValues } from "./utils";
+import { Stats } from "@react-three/drei";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: "Componets/BalloonText",
@@ -21,9 +22,7 @@ export default {
     bounce: {
       control: { type: "boolean" },
     },
-    stats:{
-      control: { type: "boolean"}
-    },
+    ...STATSOPTION,
     ...NODEFAULTCONTROLS["MESH"]
   },
 };
@@ -33,7 +32,7 @@ type DefaultBalloonTextProps = {
   scale: number;
   text: string;
   bounce: boolean;
-  stats:boolean;
+  stats: statTypes;
 };
 
 const DefaultBalloonText = ({
@@ -45,13 +44,14 @@ const DefaultBalloonText = ({
 }: DefaultBalloonTextProps) => {
   return (
     <>
-      <Scene stats={stats}>
+      <Scene>
+        <Stats showPanel={statValues[stats]}/>
         <BalloonText
           scale={scale}
           text={text}
           color={color}
           bounce={bounce}
-          position={[0, 0, -20]}
+          position={[0, 0, -5]}
         />
       </Scene>
     </>
@@ -64,9 +64,9 @@ const Template: ComponentStory<typeof DefaultBalloonText> = (props) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  stats: false,
+  stats: "NONE",
   color: "#e12222",
   scale: 1,
   text: "Hello World",
-  bounce: false,
+  bounce: true,
 };
