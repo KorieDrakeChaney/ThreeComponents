@@ -1,19 +1,18 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
-  "stories": [
-    "../src/**/*.stories.mdx",
-    "../src/**/*.stories.@(js|jsx|ts|tsx)"
-  ],
+  "stories": ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    "storybook-addon-github-button"
+    'storybook-addon-github-button',
   ],
-  "staticDirs": ['../public'],
+  "framework": "@storybook/react",
   "core": {
-    "builder": "@storybook/builder-webpack5"},
+    "builder": "@storybook/builder-webpack5"
+  },
+  "staticDirs": ['../public'],
   webpackFinal: (config) => {
     config.module.rules.push({
       test: /\.(glsl|vs|fs|vert|frag)$/,
@@ -21,6 +20,6 @@ module.exports = {
       use: ['raw-loader', 'glslify-loader'],
       include: path.resolve(__dirname, '../'),
     })
-    return config;
+    return config
   },
 }

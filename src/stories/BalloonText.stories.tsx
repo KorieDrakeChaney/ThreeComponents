@@ -7,9 +7,6 @@ import { Stats } from "@react-three/drei";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: "Componets/BalloonText",
-  position: [0, -2.5, -10],
-  rotation: [-90, 0, 0],
-  bounce: false,
   component: BalloonText,
 
   argTypes: {
@@ -21,6 +18,9 @@ export default {
     },
     bounce: {
       control: { type: "boolean" },
+    },
+    color: {
+      control: { type: "color" },
     },
     ...STATSOPTION,
     ...NODEFAULTCONTROLS["MESH"]
@@ -65,7 +65,7 @@ const Template: ComponentStory<typeof DefaultBalloonText> = (props) => (
 export const Default = Template.bind({});
 Default.args = {
   stats: "NONE",
-  color: "#e12222",
+  color: "#f63b3b",
   scale: 1,
   text: "Hello World",
   bounce: true,
