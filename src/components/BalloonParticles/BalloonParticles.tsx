@@ -31,13 +31,14 @@ const BalloonParticles = ({count = 10000, scale = 1, color = "0xffffff",rotation
                 radius: Math.random() * 10 + 20
             }
             const object = new Object3D();
-            object.scale.multiplyScalar(scale);
             structure.add(object);
             balloons.push(structure);
         }
         setBalloonStructure(balloons)
 
-        return new InstancedMesh(BalloonsGLTF.nodes["Basic"].geometry, new MeshStandardMaterial({color : new Color(color)}), count);
+        const geometry = BalloonsGLTF.nodes["Tube"].geometry;
+        geometry.center();
+        return new InstancedMesh(geometry, new MeshStandardMaterial({color : new Color(color)}), count);
     }, [BalloonsGLTF, count])
 
     useEffect(() => {
@@ -48,7 +49,7 @@ const BalloonParticles = ({count = 10000, scale = 1, color = "0xffffff",rotation
     useEffect(() => {
         balloonStructure?.forEach((balloonObject, index) => {
             balloonObject.scale.set(1, 1, 1).multiplyScalar(scale);
-            model.setMatrixAt(index, balloonObject.children[0].matrixWorld);
+            model.setMatrixAt(index, balloonObject.matrix);
         })
         model.instanceMatrix.needsUpdate = true;
     }, [scale])
