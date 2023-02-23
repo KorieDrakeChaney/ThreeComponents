@@ -5,6 +5,7 @@ import json from '@rollup/plugin-json'
 import multiInput from 'rollup-plugin-multi-input'
 import terser from "@rollup/plugin-terser";
 import glslify from 'rollup-plugin-glslify'
+import copy from 'rollup-plugin-copy'
 
 const root = process.platform === 'win32' ? path.resolve('/') : '/'
 const extensions = ['.js', '.jsx', '.ts', '.tsx', '.json']
@@ -50,7 +51,10 @@ export default [
       json(),
       glslify(),
       babel.default(getBabelOptions({ useESModules: true }, '>1%, not dead, not ie 11, not op_mini all')),
-      resolve({ extensions }),
+      resolve({ extensions },
+        copy({
+          targets: [{ src: 'assets/models', dest: 'dist/public' }]
+        })),
     ],
   },
   {
@@ -61,7 +65,10 @@ export default [
       json(),
       glslify(),
       babel.default(getBabelOptions({ useESModules: true }, '>1%, not dead, not ie 11, not op_mini all')),
-      resolve({ extensions }),
+      resolve({ extensions },
+        copy({
+          targets: [{ src: 'assets/models', dest: 'dist/public' }]
+        })),
     ],
     preserveModules: true,
   },
@@ -78,12 +85,18 @@ export default [
       babel.default(getBabelOptions({ useESModules: false })),
       resolve({ extensions }),
       terser(),
+      copy({
+        targets: [{ src: 'assets/models', dest: 'dist/public' }]
+      })
     ],
   },
   {
     input: `./src/index.ts`,
     output: { file: `dist/index.cjs.js`, format: 'cjs' },
     external,
-    plugins: [json(), glslify(), babel.default(getBabelOptions({ useESModules: false })), resolve({ extensions }), terser()],
+    plugins: [json(), glslify(), babel.default(getBabelOptions({ useESModules: false })), resolve({ extensions }), terser(),
+      copy({
+        targets: [{ src: 'assets/models', dest: 'dist/public' }]
+      })],
   },
 ]
