@@ -34,7 +34,8 @@
     "prettier": "prettier --check .",
     "prettier-fix": "prettier --write .",
     "release": "yarn rollup",
-    "prebuild": "yarn clean"
+    "prebuild": "yarn clean",
+    "preversion" : "yarn rollup"
   },
   "repository": {
     "type": "git",
