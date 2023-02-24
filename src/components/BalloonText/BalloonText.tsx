@@ -14,6 +14,7 @@ export type BalloonTextProps = {
   scale?: number
   line?: number
   bounce?: boolean;
+  lookAtCamera?:boolean;
 }
 
 const BalloonText = ({
@@ -22,6 +23,7 @@ const BalloonText = ({
   color = '0xffffff',
   scale = 1,
   bounce = false,
+  lookAtCamera = false,
   rotation = [Math.PI / 2, Math.PI, Math.PI],
   ...props
 }: BalloonTextProps) => {
@@ -105,13 +107,7 @@ const BalloonText = ({
       let geometry: BufferGeometry = balloonTextGLTF.nodes[value].geometry
       geometry.center()
       let instancedMesh = new InstancedMesh(geometry, new MeshStandardMaterial({ color }), letterCount[value])
-
       meshes.push(instancedMesh)
-    })
-    
-    meshes.forEach((value) => {
-      value.lookAt(new Vector3());
-      value.instanceMatrix.needsUpdate = true
     })
 
     return meshes
@@ -145,8 +141,19 @@ const BalloonText = ({
   }, [color])
 
   useFrame(({ clock, camera }) => {
-    if (bounce) balloonTextRef.current.scale.x = Math.max(0.5, ((Math.sin(clock.getElapsedTime()) + 1) / 2) * 0.5 + 0.5);
 
+    if(bounce){
+      balloonStructure?.forEach((balloon, index) => {
+        balloon.scale.x = Math.max(0.5, ((Math.sin(clock.getElapsedTime()) + 1) / 2) * 0.5 + 0.5);
+        balloon.updateMatrixWorld()
+        model[AlphabetIndex[balloon.userData.letter]].setMatrixAt(balloon.userData.index, balloon.matrix)
+      });
+    }
+
+    model.forEach((value) => {
+      value.lookAt(camera.position);
+      value.instanceMatrix.needsUpdate = true
+    })
 
   })
 
