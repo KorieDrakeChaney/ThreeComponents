@@ -1,72 +1,58 @@
-import * as React from "react";
-import { ComponentStory } from "@storybook/react";
+import * as React from 'react'
+import { ComponentStory } from '@storybook/react'
 
-import { BalloonText, Scene } from "../components";
-import { NODEFAULTCONTROLS, STATSOPTION, statTypes, statValues } from "./utils";
-import { Stats } from "@react-three/drei";
+import { BalloonText, Scene } from '../components'
+import { NODEFAULTCONTROLS, STATSOPTION, statTypes, statValues } from './utils'
+import { Stats } from '@react-three/drei'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: "Componets/BalloonText",
+  title: 'Componets/BalloonText',
   component: BalloonText,
 
   argTypes: {
     scale: {
-      control: { type: "range", min: 0, max: 100, step: 0.1 },
+      control: { type: 'range', min: 0, max: 100, step: 0.1 },
     },
     text: {
-      control: { type: "text" },
+      control: { type: 'text' },
     },
     bounce: {
-      control: { type: "boolean" },
+      control: { type: 'boolean' },
     },
     color: {
-      control: { type: "color" },
+      control: { type: 'color' },
     },
     ...STATSOPTION,
-    ...NODEFAULTCONTROLS["MESH"]
+    ...NODEFAULTCONTROLS['MESH'],
   },
-};
+}
 
 type DefaultBalloonTextProps = {
-  color: string;
-  scale: number;
-  text: string;
-  bounce: boolean;
-  stats: statTypes;
-};
+  color: string
+  scale: number
+  text: string
+  bounce: boolean
+  stats: statTypes
+}
 
-const DefaultBalloonText = ({
-  color,
-  scale,
-  text,
-  bounce,
-  stats
-}: DefaultBalloonTextProps) => {
+const DefaultBalloonText = ({ color, scale, text, bounce, stats }: DefaultBalloonTextProps) => {
   return (
     <>
       <Scene>
-        <Stats showPanel={statValues[stats]}/>
-        <BalloonText
-          scale={scale}
-          text={text}
-          color={color}
-          bounce={bounce}
-          position={[0, 0, -5]}
-        />
+        <Stats showPanel={statValues[stats]} />
+        <BalloonText scale={scale} text={text} color={color} bounce={bounce} position={[0, 0, -5]} />
       </Scene>
     </>
-  );
-};
+  )
+}
 
-const Template: ComponentStory<typeof DefaultBalloonText> = (props) => (
-  <DefaultBalloonText {...props} />
-);
+const Template: ComponentStory<typeof DefaultBalloonText> = (props) => <DefaultBalloonText {...props} />
 
-export const Default = Template.bind({});
+export const Default = Template.bind({})
 Default.args = {
-  stats: "NONE",
-  color: "#f63b3b",
+  stats: 'NONE',
+  color: '#f63b3b',
   scale: 1,
-  text: "Hello World",
+  text: 'Hello World',
   bounce: true,
-};
+}

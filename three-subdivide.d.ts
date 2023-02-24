@@ -1,1 +1,1 @@
-declare module "three-subdivide";
+declare module 'three-subdivide'

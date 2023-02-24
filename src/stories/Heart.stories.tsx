@@ -1,55 +1,53 @@
-import * as React from "react";
-import { ComponentStory } from "@storybook/react";
+import * as React from 'react'
+import { ComponentStory } from '@storybook/react'
 
-import { Heart, Scene } from "../components";
-import { NODEFAULTCONTROLS, STATSOPTION, statTypes, statValues } from "./utils";
-import { Stats } from "@react-three/drei";
+import { Heart, Scene } from '../components'
+import { NODEFAULTCONTROLS, STATSOPTION, statTypes, statValues } from './utils'
+import { Stats } from '@react-three/drei'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: "Shapes/Heart",
+  title: 'Shapes/Heart',
   component: Heart,
 
   argTypes: {
     color: {
-      control: { type: "color" },
+      control: { type: 'color' },
     },
     scale: {
-      control: { type: "range", min: 0, max: 100, step: 0.1 },
+      control: { type: 'range', min: 0, max: 100, step: 0.1 },
     },
     rotate: {
-      control: { type: "boolean" },
+      control: { type: 'boolean' },
     },
     ...STATSOPTION,
-    ...NODEFAULTCONTROLS["MESH"]
+    ...NODEFAULTCONTROLS['MESH'],
   },
-};
+}
 
 type DefaultHeartProps = {
-  color: string;
-  scale: number;
-  rotate: boolean;
-  stats: statTypes;
-};
+  color: string
+  scale: number
+  rotate: boolean
+  stats: statTypes
+}
 
 const DefaultHeart = ({ color, scale, rotate, stats }: DefaultHeartProps) => {
   return (
     <>
-      <Scene >
-        <Stats showPanel={statValues[stats]}/>
+      <Scene>
+        <Stats showPanel={statValues[stats]} />
         <Heart color={color} scale={scale} rotate={rotate} />
       </Scene>
     </>
-  );
-};
+  )
+}
 
-const Template: ComponentStory<typeof DefaultHeart> = (props) => (
-  <DefaultHeart {...props} />
-);
+const Template: ComponentStory<typeof DefaultHeart> = (props) => <DefaultHeart {...props} />
 
-export const Default = Template.bind({});
+export const Default = Template.bind({})
 Default.args = {
-  stats: "NONE",
+  stats: 'NONE',
   scale: 1,
-  color: "#e12222",
+  color: '#e12222',
   rotate: true,
-};
+}

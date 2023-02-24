@@ -1,7 +1,5 @@
 {
-  "plugins": [
-    "@typescript-eslint", "react", "prettier", "react-hooks", "import"
-  ], 
+  "plugins": ["@typescript-eslint", "react", "prettier", "react-hooks", "import"],
   "extends": [
     "prettier",
     "plugin:prettier/recommended",
@@ -10,7 +8,7 @@
     "plugin:import/warnings"
   ],
   "parser": "@babel/eslint-parser",
-  "rules":{
+  "rules": {
     "curly": ["error", "multi-line", "consistent"],
     "no-console": "off",
     "no-empty-pattern": "error",
@@ -33,7 +31,7 @@
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-explicit-any": "off"
-  }, 
+  },
   "parserOptions": {
     "ecmaFeatures": {
       "ecmaVersion": 2018,

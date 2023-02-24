@@ -19,6 +19,6 @@
     "noImplicitThis": false,
     "baseUrl": "./src"
   },
-  "include": ["./src", "custom.d.ts"],
+  "include": ["./src"],
   "exclude": ["./node_modules/**/*"]
 }

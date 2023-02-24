@@ -1,17 +1,17 @@
-import * as React from "react";
-import { Canvas, Props } from "@react-three/fiber";
-import { OrbitControls, Preload, Stats } from "@react-three/drei";
-import { PropsWithChildren } from "react";
-import { Vector3 } from "three";
+import * as React from 'react'
+import { Canvas, Props } from '@react-three/fiber'
+import { OrbitControls, Preload, Stats } from '@react-three/drei'
+import { PropsWithChildren } from 'react'
+import { Vector3 } from 'three'
 
 type SceneProps = PropsWithChildren<
   Props & {
-    cameraFov?: number;
-    cameraPosition?: Vector3;
-    lights?: boolean;
-    controls?: boolean;
+    cameraFov?: number
+    cameraPosition?: Vector3
+    lights?: boolean
+    controls?: boolean
   }
->;
+>
 
 const Scene = ({
   children,
@@ -23,11 +23,7 @@ const Scene = ({
 }: SceneProps) => {
   // Everything defined in here will persist between route changes, only children are swapped
   return (
-    <Canvas
-      shadows
-      camera={{ position: cameraPosition, fov: cameraFov }}
-      {...props}
-    >
+    <Canvas shadows camera={{ position: cameraPosition, fov: cameraFov }} {...props}>
       {children}
       {lights && (
         <>
@@ -38,7 +34,7 @@ const Scene = ({
       {controls && <OrbitControls />}
       <Preload all />
     </Canvas>
-  );
-};
+  )
+}
 
-export default Scene;
+export default Scene
