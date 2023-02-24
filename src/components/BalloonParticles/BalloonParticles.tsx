@@ -116,14 +116,13 @@ const BalloonParticles = ({
           break
         case 'Regular':
           {
-            const s = t * balloonObject.userData.speed
             balloonObject.position
               .set(
                 balloonObject.userData.startingPosition.x,
                 balloonObject.userData.startingPosition.y,
                 balloonObject.userData.startingPosition.z
               )
-              .applyAxisAngle(new Vector3(1, 1, 1), -balloonObject.rotation.y * s)
+              .applyAxisAngle(new Vector3(1, 1, 1), -balloonObject.rotation.y * balloonObject.userData.speed)
             balloonObject.rotation.set(
               0,
               Math.max((Math.sin(clock.getElapsedTime() + balloonObject.userData.phase) + 1) / 2, 0),
