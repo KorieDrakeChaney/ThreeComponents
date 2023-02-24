@@ -1,11 +1,11 @@
 import path from 'path'
 import babel from '@rollup/plugin-babel'
-import resolve from "@rollup/plugin-node-resolve";
+import resolve from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
 import multiInput from 'rollup-plugin-multi-input'
-import terser from "@rollup/plugin-terser";
+import terser from '@rollup/plugin-terser'
 import glslify from 'rollup-plugin-glslify'
-import typescript from '@rollup/plugin-typescript';
+import typescript from '@rollup/plugin-typescript'
 const root = process.platform === 'win32' ? path.resolve('/') : '/'
 const extensions = ['.js', '.jsx', '.ts', '.tsx', '.json']
 const external = (id) => !id.startsWith('.') && !id.startsWith(root)
@@ -49,7 +49,7 @@ export default [
       multiInput.default(),
       json(),
       glslify(),
-      typescript(),
+      typescript({ module: 'ESNEXT' }),
       babel.default(getBabelOptions({ useESModules: true }, '>1%, not dead, not ie 11, not op_mini all')),
       resolve({ extensions }),
     ],
@@ -61,7 +61,7 @@ export default [
     plugins: [
       json(),
       glslify(),
-      typescript(),
+      typescript({ module: 'ESNEXT' }),
       babel.default(getBabelOptions({ useESModules: true }, '>1%, not dead, not ie 11, not op_mini all')),
       resolve({ extensions }),
     ],
@@ -77,7 +77,7 @@ export default [
       }),
       json(),
       glslify(),
-      typescript(),
+      typescript({ module: 'ESNEXT' }),
       babel.default(getBabelOptions({ useESModules: false })),
       resolve({ extensions }),
       terser(),
@@ -87,6 +87,13 @@ export default [
     input: `./src/index.ts`,
     output: { file: `dist/index.cjs.js`, format: 'cjs' },
     external,
-      plugins: [json(), typescript(), glslify(), babel.default(getBabelOptions({ useESModules: false })), resolve({ extensions }), terser()],
+    plugins: [
+      json(),
+      typescript({ module: 'ESNEXT' }),
+      glslify(),
+      babel.default(getBabelOptions({ useESModules: false })),
+      resolve({ extensions }),
+      terser(),
+    ],
   },
 ]

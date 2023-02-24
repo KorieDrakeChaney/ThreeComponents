@@ -34,7 +34,7 @@ const Heart = ({
 
   useEffect(() => {
     if (heartRef) {
-      (heartRef.current as Mesh).geometry = LoopSubdivision.modify((heartRef.current as Mesh).geometry, 2)
+      ;(heartRef.current as Mesh).geometry = LoopSubdivision.modify((heartRef.current as Mesh).geometry, 2)
     }
   }, [heartRef])
 

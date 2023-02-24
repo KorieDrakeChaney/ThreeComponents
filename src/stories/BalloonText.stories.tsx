@@ -28,7 +28,7 @@ export default {
   },
 }
 
-const DefaultBalloonText = ({ color, scale, text, bounce, stats }: BalloonTextProps & {stats : statTypes}) => {
+const DefaultBalloonText = ({ color, scale, text, bounce, stats }: BalloonTextProps & { stats: statTypes }) => {
   return (
     <>
       <Scene>

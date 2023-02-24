@@ -25,8 +25,7 @@ export default {
   },
 }
 
-
-const DefaultHeart = ({ color, scale, rotate, stats }: HeartProps & {stats : statTypes}) => {
+const DefaultHeart = ({ color, scale, rotate, stats }: HeartProps & { stats: statTypes }) => {
   return (
     <>
       <Scene>
