@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Canvas, Props } from '@react-three/fiber'
-import { OrbitControls, Preload, Stats } from '@react-three/drei'
+import { OrbitControls, Preload } from '@react-three/drei'
 import { PropsWithChildren } from 'react'
-import { Vector3 } from 'three'
+import { Vector3} from 'three'
 
 type SceneProps = PropsWithChildren<
   Props & {

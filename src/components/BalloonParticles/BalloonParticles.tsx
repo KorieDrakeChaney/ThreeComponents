@@ -8,25 +8,32 @@ import {
   InstancedMesh,
   MeshStandardMaterial,
   Object3D,
+  Vector3
 } from 'three'
-import { BALLOONS, BalloonType } from './utils'
+import { BalloonMode, BALLOONS, BalloonType } from './utils'
 import { useFrame } from '@react-three/fiber'
 
-type BalloonParticlesType = {
+export type BalloonParticlesProps= {
   scale?: number
   rotation?: [number, number, number]
   color?: string
   count?: number
+  mode?: BalloonMode
+  radius?:number
+  balloonType?: BalloonType;
 }
 
 const BalloonParticles = ({
+mode = "Circular",
   count = 10000,
   scale = 1,
+  radius = 20,
   color = '0xffffff',
   rotation = [Math.PI / 2, Math.PI, Math.PI],
-}: BalloonParticlesType) => {
-  const [balloonStructure, setBalloonStructure] = useState<Group[]>()
-  const BalloonsGLTF = useGLTF('./assets/models/balloons.glb') as GLTF & {
+  balloonType = "Basic"
+}: BalloonParticlesProps) => {
+  
+  const BalloonsGLTF = useGLTF('./assets/models/Balloons.glb') as GLTF & {
     nodes: any
   }
 
@@ -38,50 +45,96 @@ const BalloonParticles = ({
         speed: Math.random() * 0.05 + 0.01,
         height: -100 + Math.random() * 200,
         phase: Math.PI * 2 * Math.random(),
-        radius: Math.random() * 10 + 20,
+        startingPosition : new Vector3(),
+        origin : new Vector3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5),
+        radius: Math.random() * radius + radius / 2,
       }
       const object = new Object3D()
+      object.scale.normalize().multiplyScalar(scale)
+      object.updateMatrixWorld(true)
       structure.add(object)
       balloons.push(structure)
     }
-    setBalloonStructure(balloons)
 
-    const geometry = BalloonsGLTF.nodes['Tube'].geometry
-    geometry.center()
-    return new InstancedMesh(geometry, new MeshStandardMaterial({ color: new Color(color) }), count)
-  }, [BalloonsGLTF, count])
+    return balloons
+  }, [count])
 
   useEffect(() => {
-    ;(model.material as MeshStandardMaterial).color.set(color)
+    mesh.count = count;
+  }
+  , [count])
+
+  const mesh = useMemo(() => {
+    const geometry = BalloonsGLTF.nodes[balloonType].geometry
+    geometry.center()
+    const mesh = new InstancedMesh(geometry, new MeshStandardMaterial({ color: new Color(color) }), count);
+    model.forEach((balloonObject, index) => {
+      mesh.setMatrixAt(index, balloonObject.matrixWorld)
+    })
+    mesh.instanceMatrix.needsUpdate = true
+    return mesh
+  }, [BalloonsGLTF, balloonType])
+
+  useEffect(() => {
+    (mesh.material as MeshStandardMaterial).color.set(color)
   }, [color])
 
   useEffect(() => {
-    balloonStructure?.forEach((balloonObject, index) => {
+    model.forEach((balloonObject, index) => {
       balloonObject.scale.set(1, 1, 1).multiplyScalar(scale)
-      model.setMatrixAt(index, balloonObject.matrix)
+      balloonObject.updateMatrixWorld(true)
+      mesh.setMatrixAt(index, balloonObject.matrixWorld)
     })
-    model.instanceMatrix.needsUpdate = true
-  }, [scale])
+    mesh.instanceMatrix.needsUpdate = true
+  }, [scale, count])
+
+  useEffect(() => {
+    model.forEach((balloonObject) => {
+        const normalRadius = (balloonObject.userData.radius / (Math.sqrt(Math.pow(balloonObject.userData.radius, 2))));
+        const newRadius = normalRadius * radius;
+        balloonObject.userData.radius = newRadius
+        balloonObject.userData.startingPosition.copy(balloonObject.userData.origin).multiplyScalar(radius)
+    })
+  }, [radius, count])
 
   useFrame(({ clock }) => {
     let t = clock.getElapsedTime()
-    balloonStructure?.forEach((balloonObject, index) => {
-      const angle = t * balloonObject.userData.speed + balloonObject.userData.phase
-      balloonObject.position
-        .set(Math.cos(angle), 0, Math.sin(angle))
-        .multiplyScalar(balloonObject.userData.radius)
-        .setY(balloonObject.userData.height)
-      balloonObject.rotation.y = -angle
-      balloonObject.updateMatrixWorld(true)
+    let d = clock.getDelta();
+    model.forEach((balloonObject, index) => {
+        switch(mode){
+            case "Circular":
+                {
 
-      model.setMatrixAt(index, balloonObject.children[0].matrixWorld)
+                    const angle = t * balloonObject.userData.speed + balloonObject.userData.phase
+                    balloonObject.position
+                    .set(Math.cos(angle), 0, Math.sin(angle))
+                    .multiplyScalar(balloonObject.userData.radius)
+                    .setY(balloonObject.userData.height)
+                    balloonObject.rotation.y = -angle
+                    balloonObject.updateMatrixWorld(true)
+                }
+                break;
+            case "Regular":
+                {
+                    const displacement  = t * balloonObject.userData.speed;
+                    const angle = balloonObject.rotation.y;
+                    balloonObject.position
+                    .set(balloonObject.userData.startingPosition.x, balloonObject.userData.startingPosition.y, balloonObject.userData.startingPosition.z)
+                    .applyAxisAngle(new Vector3(1, 1, 1), -balloonObject.rotation.y * 0.25)
+                    balloonObject.rotation.set(0, Math.max((Math.sin(clock.getElapsedTime() + balloonObject.userData.phase) + 1 )/ 2, 0),  0.5)
+                    balloonObject.updateMatrixWorld(true)
+                }
+                break;
+        }
+
+        mesh.setMatrixAt(index, balloonObject.matrixWorld)
     })
-    model.instanceMatrix.needsUpdate = true
+    mesh.instanceMatrix.needsUpdate = true
   })
 
   return (
     <group>
-      <primitive object={model} rotation={rotation} />
+      <primitive object={mesh} rotation={rotation} />
     </group>
   )
 }

@@ -4,6 +4,7 @@ import { ComponentStory } from '@storybook/react'
 import { Heart, Scene } from '../components'
 import { NODEFAULTCONTROLS, STATSOPTION, statTypes, statValues } from './utils'
 import { Stats } from '@react-three/drei'
+import { HeartProps } from 'components/Heart/Heart'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: 'Shapes/Heart',
@@ -24,14 +25,8 @@ export default {
   },
 }
 
-type DefaultHeartProps = {
-  color: string
-  scale: number
-  rotate: boolean
-  stats: statTypes
-}
 
-const DefaultHeart = ({ color, scale, rotate, stats }: DefaultHeartProps) => {
+const DefaultHeart = ({ color, scale, rotate, stats }: HeartProps & {stats : statTypes}) => {
   return (
     <>
       <Scene>

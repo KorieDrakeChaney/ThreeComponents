@@ -5,7 +5,7 @@ import { MutableRefObject, useEffect, useMemo, useRef } from 'react'
 import { BufferGeometry, Color, Mesh, MeshPhongMaterial } from 'three'
 import { LoopSubdivision } from 'three-subdivide'
 
-type HeartProps = ThreeElements['mesh'] & {
+export type HeartProps = ThreeElements['mesh'] & {
   color?: string
   rotate?: boolean
 }
@@ -17,7 +17,7 @@ const Heart = ({
   rotation = [Math.PI * 2 - Math.PI / 2, 0, Math.PI / 2],
   ...props
 }: HeartProps) => {
-  const heartFBX = useFBX('./assets/models/heart.fbx')
+  const heartFBX = useFBX('./assets/models/Heart.fbx')
   const heartRef = useRef() as MutableRefObject<Mesh>
   const model: BufferGeometry = useMemo(() => {
     const mesh = heartFBX.clone(true).children[1]
@@ -34,7 +34,7 @@ const Heart = ({
 
   useEffect(() => {
     if (heartRef) {
-      ;(heartRef.current as Mesh).geometry = LoopSubdivision.modify((heartRef.current as Mesh).geometry, 2)
+      (heartRef.current as Mesh).geometry = LoopSubdivision.modify((heartRef.current as Mesh).geometry, 2)
     }
   }, [heartRef])
 

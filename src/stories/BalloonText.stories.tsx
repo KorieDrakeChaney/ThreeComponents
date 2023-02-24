@@ -4,6 +4,7 @@ import { ComponentStory } from '@storybook/react'
 import { BalloonText, Scene } from '../components'
 import { NODEFAULTCONTROLS, STATSOPTION, statTypes, statValues } from './utils'
 import { Stats } from '@react-three/drei'
+import { BalloonTextProps } from 'components/BalloonText/BalloonText'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: 'Componets/BalloonText',
@@ -27,15 +28,7 @@ export default {
   },
 }
 
-type DefaultBalloonTextProps = {
-  color: string
-  scale: number
-  text: string
-  bounce: boolean
-  stats: statTypes
-}
-
-const DefaultBalloonText = ({ color, scale, text, bounce, stats }: DefaultBalloonTextProps) => {
+const DefaultBalloonText = ({ color, scale, text, bounce, stats }: BalloonTextProps & {stats : statTypes}) => {
   return (
     <>
       <Scene>

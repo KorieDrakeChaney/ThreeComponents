@@ -6,10 +6,7 @@ import { BufferGeometry, Group, InstancedMesh, MeshStandardMaterial, Object3D, V
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Alphabet, AlphabetIndex, letters } from './utils'
 
-import vertexShader from '../../shaders/balloonText/vertex.glsl'
-import fragmentShader from '../../shaders/balloonText/fragment.glsl'
-
-type BalloonTextProps = {
+export type BalloonTextProps = {
   text?: string
   color?: string
   position?: [number, number, number]
