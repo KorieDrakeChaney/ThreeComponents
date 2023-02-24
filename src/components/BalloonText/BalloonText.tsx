@@ -13,7 +13,7 @@ export type BalloonTextProps = {
   rotation?: [number, number, number]
   scale?: number
   line?: number
-  bounce?: boolean
+  bounce?: boolean;
 }
 
 const BalloonText = ({
@@ -105,7 +105,13 @@ const BalloonText = ({
       let geometry: BufferGeometry = balloonTextGLTF.nodes[value].geometry
       geometry.center()
       let instancedMesh = new InstancedMesh(geometry, new MeshStandardMaterial({ color }), letterCount[value])
+
       meshes.push(instancedMesh)
+    })
+    
+    meshes.forEach((value) => {
+      value.lookAt(new Vector3());
+      value.instanceMatrix.needsUpdate = true
     })
 
     return meshes
@@ -138,8 +144,10 @@ const BalloonText = ({
     })
   }, [color])
 
-  useFrame(({ clock }) => {
-    if (bounce) balloonTextRef.current.scale.x = Math.max(0.5, ((Math.sin(clock.getElapsedTime()) + 1) / 2) * 0.5 + 0.5)
+  useFrame(({ clock, camera }) => {
+    if (bounce) balloonTextRef.current.scale.x = Math.max(0.5, ((Math.sin(clock.getElapsedTime()) + 1) / 2) * 0.5 + 0.5);
+
+
   })
 
   return (
