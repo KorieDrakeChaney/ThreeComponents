@@ -1,6 +1,6 @@
 {
   "name": "three-components",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "A collection of three components for personal library",
   "files": [
     "dist"
