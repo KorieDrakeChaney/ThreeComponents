@@ -23,7 +23,6 @@ const BalloonText = ({
   color = '0xffffff',
   scale = 1,
   bounce = false,
-  lookAtCamera = false,
   rotation = [Math.PI / 2, Math.PI, Math.PI],
   ...props
 }: BalloonTextProps) => {
@@ -140,21 +139,8 @@ const BalloonText = ({
     })
   }, [color])
 
-  useFrame(({ clock, camera }) => {
-
-    if(bounce){
-      balloonStructure?.forEach((balloon, index) => {
-        balloon.scale.x = Math.max(0.5, ((Math.sin(clock.getElapsedTime()) + 1) / 2) * 0.5 + 0.5);
-        balloon.updateMatrixWorld()
-        model[AlphabetIndex[balloon.userData.letter]].setMatrixAt(balloon.userData.index, balloon.matrix)
-      });
-    }
-
-    model.forEach((value) => {
-      value.lookAt(camera.position);
-      value.instanceMatrix.needsUpdate = true
-    })
-
+  useFrame(({ clock }) => {
+    if (bounce) balloonTextRef.current.scale.x = Math.max(0.5, ((Math.sin(clock.getElapsedTime()) + 1) / 2) * 0.5 + 0.5);
   })
 
   return (

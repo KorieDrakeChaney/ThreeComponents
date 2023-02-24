@@ -33,7 +33,7 @@ const DefaultBalloonText = ({ color, scale, text, bounce, stats }: BalloonTextPr
     <>
       <Scene>
         <Stats showPanel={statValues[stats]} />
-        <BalloonText scale={scale} text={text} color={color} bounce={bounce} position={[0, 0, -5]} />
+        <BalloonText scale={scale} text={text} color={color} bounce={bounce} position={[0, 0, 10]}/>
       </Scene>
     </>
   )
@@ -44,6 +44,7 @@ const Template: ComponentStory<typeof DefaultBalloonText> = (props) => <DefaultB
 export const Default = Template.bind({})
 Default.args = {
   stats: 'NONE',
+  lookAtCamera : false,
   color: '#f63b3b',
   scale: 1,
   text: 'Hello World',
