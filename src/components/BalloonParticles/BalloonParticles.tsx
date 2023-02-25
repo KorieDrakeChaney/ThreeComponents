@@ -53,10 +53,6 @@ const BalloonParticles = ({
     return balloons
   }, [count])
 
-  useEffect(() => {
-    mesh.count = count
-  }, [count])
-
   const mesh = useMemo(() => {
     const geometry = BalloonsGLTF.nodes[balloonType].geometry
     geometry.center()
@@ -66,7 +62,7 @@ const BalloonParticles = ({
     })
     mesh.instanceMatrix.needsUpdate = true
     return mesh
-  }, [BalloonsGLTF, balloonType])
+  }, [BalloonsGLTF, balloonType, count])
 
   useEffect(() => {
     ;(mesh.material as MeshStandardMaterial).color.set(color)

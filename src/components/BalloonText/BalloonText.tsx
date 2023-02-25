@@ -14,7 +14,6 @@ export type BalloonTextProps = {
   scale?: number
   line?: number
   bounce?: boolean;
-  lookAtCamera?:boolean;
 }
 
 const BalloonText = ({
